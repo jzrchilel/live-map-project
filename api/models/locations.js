@@ -5,9 +5,13 @@ const locationSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  coords: {
+  latitude: {
     type: Number,
-    index: '2dsphere'
+    required: true
+  },
+  longitude: {
+    type: Number,
+    required: true
   },
   status: {
     type: Boolean,
@@ -16,4 +20,4 @@ const locationSchema = new mongoose.Schema({
   }
 });
 
-mongoose.Model('Location', locationSchema);
+mongoose.model('Location', locationSchema);

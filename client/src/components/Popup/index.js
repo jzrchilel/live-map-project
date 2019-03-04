@@ -19,14 +19,14 @@ function PopupComponent({ popupInfo, onCloseHandler }) {
   const [editable, setEditable] = useState(false);
   const [values, setValues] = useState({
     name: '', 
-    state: popupInfo && popupInfo.state,
-    latitude: popupInfo && popupInfo.latitude,
-    longitude: popupInfo && popupInfo.longitude
+    state: '',
+    latitude: '',
+    longitude: ''
   });
 
   useEffect(() => {
     setValues({
-      name: '', 
+      name: popupInfo && popupInfo.name, 
       state: popupInfo && popupInfo.state,
       latitude: popupInfo && popupInfo.latitude,
       longitude: popupInfo && popupInfo.longitude
@@ -65,8 +65,8 @@ function PopupComponent({ popupInfo, onCloseHandler }) {
           ? (<div>
               <p><strong>Status: </strong>{' '}
               {popupInfo.status ? 'Open' : 'Close'}</p>
-              <p><strong>State: </strong>{' '}
-              {popupInfo.state}</p>
+              <p><strong>Name: </strong>{' '}
+              {popupInfo.name}</p>
               <p><strong>Latitude: </strong>
               {popupInfo.latitude}</p>
               <p><strong>Longitude: </strong>

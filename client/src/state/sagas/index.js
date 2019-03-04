@@ -1,9 +1,9 @@
 
 import { all } from 'redux-saga/effects';
-import { watchHelloSaga } from './helloSaga';
+import { watchCitiesSaga } from './citiesSaga';
 
 export default function* () {
   yield all([
-    watchHelloSaga()
+    watchCitiesSaga()
   ])
 }

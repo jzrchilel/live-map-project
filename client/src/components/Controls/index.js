@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { NavigationControl } from 'react-map-gl';
 
@@ -9,11 +10,23 @@ const navStyle = {
   padding: '10px',
 };
 
+const buttonStyle = {
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  padding: 10
+};
+
 function Controls({ updateViewport }) {
   return (
-    <div style={navStyle}>
-      <NavigationControl onViewportChange={updateViewport} />
-    </div>
+    <Fragment>
+      <div style={navStyle}>
+        <NavigationControl onViewportChange={updateViewport} />
+      </div>
+      <div style={buttonStyle}>
+        <Button color="primary">Add Location</Button>
+      </div>
+    </Fragment>
   );
 }
 

@@ -7,7 +7,7 @@ function MarkerComponent({ data, showInfoHandler }) {
   return (
     data.map(city => (
       <Marker
-        key={`key-${city.city}`}
+        key={`key-${city._id}`}
         latitude={city.latitude}
         longitude={city.longitude}
       >

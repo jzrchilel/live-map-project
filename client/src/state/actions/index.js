@@ -1,5 +1,5 @@
-import * as helloActions from './helloActions';
+import * as citiesActions from './citiesActions';
 
 export {
-  helloActions
+  citiesActions
 };

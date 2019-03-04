@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import reducer from './reducer';
+import citiesReducer from './citiesReducer';
 
 export default combineReducers({
-  reducer
+  citiesReducer
 });
