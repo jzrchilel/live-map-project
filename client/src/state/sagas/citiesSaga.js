@@ -9,11 +9,7 @@ import {
 } from '../types';
 
 function fetchCities() {
-  return axios.get(`${config.API_URL}/api/locations`)
-}
-
-export function* watchCitiesSaga() {
-  yield takeEvery(GET_CITIES, workerSaga);
+  return axios.get(`${config.API_URL}/api/locations`);
 }
 
 function* workerSaga() {
@@ -25,4 +21,8 @@ function* workerSaga() {
     console.log(e);
     yield put({ type: FETCH_CITIES_ERROR, payload: e.response });
   }
+}
+
+export function* watchCitiesSaga() {
+  yield takeEvery(GET_CITIES, workerSaga);
 }

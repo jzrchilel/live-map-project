@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Popup } from 'react-map-gl';
+import { formActions } from '../../state/actions';
 
 const Input = ({ type, name, onChange, value, ...rest }) => (
   <input
@@ -15,19 +17,21 @@ const Input = ({ type, name, onChange, value, ...rest }) => (
   />
 );
 
-function PopupComponent({ popupInfo, onCloseHandler }) {
+function PopupComponent({ popupInfo, onCloseHandler, editLocation, deleteLocation }) {
   const [editable, setEditable] = useState(false);
   const [values, setValues] = useState({
+    _id: '',
     name: '', 
-    state: '',
+    status: '',
     latitude: '',
     longitude: ''
   });
 
   useEffect(() => {
     setValues({
+      _id: popupInfo && popupInfo._id,
       name: popupInfo && popupInfo.name, 
-      state: popupInfo && popupInfo.state,
+      status: popupInfo && popupInfo.status,
       latitude: popupInfo && popupInfo.latitude,
       longitude: popupInfo && popupInfo.longitude
     });
@@ -39,17 +43,23 @@ function PopupComponent({ popupInfo, onCloseHandler }) {
 
   const onSubmitHandler = e => {
     e.preventDefault();
-    console.log(JSON.stringify(values));
+    editLocation(values);
+    onClosePopup();
   };
 
   const onCancelHandler = () => {
     setEditable(false);
-  }
+  };
 
   const onClosePopup = () => {
     setEditable(false);
     onCloseHandler();
-  }
+  };
+
+  const onDeleteHandler = () => {
+    deleteLocation(values.id);
+    onClosePopup();
+  };
 
   return popupInfo && (
     <Popup
@@ -63,19 +73,28 @@ function PopupComponent({ popupInfo, onCloseHandler }) {
       {
         !editable
           ? (<div>
-              <p><strong>Status: </strong>{' '}
-              {popupInfo.status ? 'Open' : 'Close'}</p>
-              <p><strong>Name: </strong>{' '}
-              {popupInfo.name}</p>
-              <p><strong>Latitude: </strong>
-              {popupInfo.latitude}</p>
-              <p><strong>Longitude: </strong>
-              {popupInfo.longitude}</p>
-              <button onClick={() => setEditable(true)}>Edit</button>
+              <p>
+                <strong>Name: </strong>{' '}
+                {popupInfo.name}
+              </p>
+              <p>
+                <strong>Latitude: </strong>
+                {popupInfo.latitude}
+              </p>
+              <p>
+                <strong>Longitude: </strong>
+                {popupInfo.longitude}
+              </p>
+              <p>
+                <strong>Status: </strong>{' '}
+                {popupInfo.status ? 'Open' : 'Close'}
+              </p>
+              <button onClick={() => setEditable(true)}>Edit</button>{' '}
+              <button onClick={onDeleteHandler}>Delete</button>
             </div>)
           : (<form onSubmit={onSubmitHandler}>
               <label htmlFor="name">
-                Name:
+                Name: {' '}
                 <Input
                   type="text"
                   name="name"
@@ -84,18 +103,8 @@ function PopupComponent({ popupInfo, onCloseHandler }) {
                 />
               </label>
               <br />
-              <label htmlFor="state">
-                State:
-                <Input
-                  type="text"
-                  name="state"
-                  value={values.state}
-                  onChange={onChangeHandler}
-                />
-              </label>
-              <br />
               <label htmlFor="latitude">
-                Latitude:
+                Latitude: {' '}
                 <Input
                   type="text"
                   name="latitude"
@@ -105,13 +114,27 @@ function PopupComponent({ popupInfo, onCloseHandler }) {
               </label>
               <br />
               <label htmlFor="longitude">
-                Longitude:
+                Longitude: {' '}
                 <Input
                   type="text" 
                   name="longitude"
                   value={values.longitude}
                   onChange={onChangeHandler}
                 />
+              </label>
+              <br />
+              <label htmlFor="state">
+                State: {' '}
+                <select 
+                  name="status"
+                  value={values.status}
+                  onChange={e => {
+                    e.preventDefault();
+                    onChangeHandler('status', e.target.value);
+                  }}>
+                  <option value="true">Open</option>
+                  <option value="false">Close</option>
+                </select>
               </label>
               <br />
               <input type="submit" value="Submit" />
@@ -127,4 +150,13 @@ PopupComponent.propTypes = {
   onCloseHandler: PropTypes.func.isRequired
 };
 
-export default PopupComponent;
+const mapStateToProps = state => ({
+  ...state
+});
+
+const mapDispatchToProps = dispatch => ({
+  editLocation: data => dispatch(formActions.editLocation(data)),
+  deleteLocation: id => dispatch(formActions.deleteLocation(id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PopupComponent);

@@ -6,8 +6,9 @@ jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
    Map: () => ({})
 }));
 
-
-it('renders without crashing', () => {
-  const wrapper = shallow(<App />);
-  expect(wrapper.find('Map').length).toBe(1);
+describe('Testing App Component', () => {
+  it('renders without crashing', () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find('.App').length).toBe(1);
+  });
 });
