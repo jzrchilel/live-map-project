@@ -35,7 +35,7 @@ export class Map extends Component {
     return cities && (
       <ReactMapGL
         {...this.state.viewport}
-        mapStyle='mapbox://styles/mapbox/dark-v9'
+        mapStyle='mapbox://styles/mapbox/navigation-guidance-night-v2'
         mapboxApiAccessToken={process.env.REACT_APP_MAP_BOX_ACCESS_TOKEN}
         onViewportChange={this.updateViewport}
       >

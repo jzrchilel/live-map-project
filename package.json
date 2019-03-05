@@ -6,10 +6,13 @@
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www",
     "test": "mocha server/tests",
-    "test:watch": "mocha --watch server/tests"
+    "test:watch": "mocha --watch server/tests",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run devstart\" \"npm run client\""
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
