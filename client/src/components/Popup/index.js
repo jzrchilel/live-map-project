@@ -2,10 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Popup } from 'react-map-gl';
+import {
+  Button,
+  Container,
+  Form,
+  FormGroup,
+  Col,
+  Label,
+  Input,
+  FormFeedback
+} from 'reactstrap';
 import { formActions } from '../../state/actions';
 
-const Input = ({ type, name, onChange, value, ...rest }) => (
-  <input
+const InputComponent = ({ type, name, onChange, value, ...rest }) => (
+  <Input
     name={name}
     type={type}
     value={value}
@@ -27,6 +37,12 @@ function PopupComponent({ popupInfo, onCloseHandler, editLocation, deleteLocatio
     longitude: ''
   });
 
+  const [errors, setErrors] = useState({
+      name: false,
+      latitude: false,
+      longitude: false
+    });
+
   useEffect(() => {
     setValues({
       _id: popupInfo && popupInfo._id,
@@ -41,17 +57,57 @@ function PopupComponent({ popupInfo, onCloseHandler, editLocation, deleteLocatio
     setValues({ ...values, [name]: value });
   };
 
+  const onValidationHandler = () => {
+    const newErrors = { ...errors };
+    let isFormValid = true;
+
+    if (!values.name) {
+      isFormValid = false;
+      newErrors.name = true;
+    } else {
+      isFormValid = true;
+      newErrors.name = false;
+    }
+
+    if (!values.latitude) {
+      isFormValid = false;
+      newErrors.latitude = true;
+    }
+
+    if (!values.longitude) {
+      isFormValid = false;
+      newErrors.longitude = true;
+    }
+
+    setErrors(newErrors);
+    
+    return isFormValid;
+  }
+
   const onSubmitHandler = e => {
     e.preventDefault();
-    editLocation(values);
+
+    if (onValidationHandler()) {
+      editLocation(values);
+      onClosePopup();
+    }
+  };
+
+  const revertErrors = () => {
+    setErrors({
+      name: false,
+      latitude: false,
+      longitude: false
+    });
+  }
+
+  const onCancelHandler = () => {
+    revertErrors();
     onClosePopup();
   };
 
-  const onCancelHandler = () => {
-    setEditable(false);
-  };
-
   const onClosePopup = () => {
+    revertErrors();
     setEditable(false);
     onCloseHandler();
   };
@@ -89,57 +145,75 @@ function PopupComponent({ popupInfo, onCloseHandler, editLocation, deleteLocatio
                 <strong>Status: </strong>{' '}
                 {popupInfo.status ? 'Open' : 'Close'}
               </p>
-              <button onClick={() => setEditable(true)}>Edit</button>{' '}
-              <button onClick={onDeleteHandler}>Delete</button>
+              <Button color="primary" onClick={() => setEditable(true)}>Edit</Button>{' '}
+              <Button color="danger" onClick={onDeleteHandler}>Delete</Button>
             </div>)
-          : (<form onSubmit={onSubmitHandler}>
-              <label htmlFor="name">
-                Name: {' '}
-                <Input
-                  type="text"
-                  name="name"
-                  value={values.name}
-                  onChange={onChangeHandler}
-                />
-              </label>
-              <br />
-              <label htmlFor="latitude">
-                Latitude: {' '}
-                <Input
-                  type="text"
-                  name="latitude"
-                  value={values.latitude}
-                  onChange={onChangeHandler}
-                />
-              </label>
-              <br />
-              <label htmlFor="longitude">
-                Longitude: {' '}
-                <Input
-                  type="text" 
-                  name="longitude"
-                  value={values.longitude}
-                  onChange={onChangeHandler}
-                />
-              </label>
-              <br />
-              <label htmlFor="state">
-                State: {' '}
-                <select 
-                  name="status"
-                  value={values.status}
-                  onChange={e => {
-                    e.preventDefault();
-                    onChangeHandler('status', e.target.value);
-                  }}>
-                  <option value="true">Open</option>
-                  <option value="false">Close</option>
-                </select>
-              </label>
-              <br />
-              <input type="submit" value="Submit" />
-              <button onClick={onCancelHandler}>Cancel</button>
-            </form>)
+          : (<Container>
+              <h5>Edit Location</h5><hr />
+              <Form>
+                <FormGroup row>
+                  <Label for="name" sm={3}>Name</Label>
+                  <Col sm={9}>
+                    <InputComponent
+                      type="text"
+                      name="name"
+                      placeholder="Location name"
+                      value={values.name}
+                      onChange={onChangeHandler}
+                      invalid={errors.name}
+                    />
+                    <FormFeedback>Location name is required.</FormFeedback>
+                  </Col>
+                </FormGroup>
+                <FormGroup row>
+                  <Label for="latitude" sm={3}>Latitude</Label>
+                  <Col sm={9}>
+                    <InputComponent
+                      type="number"
+                      name="latitude"
+                      id="latitude"
+                      placeholder="Location latitude"
+                      value={values.latitude}
+                      onChange={onChangeHandler}
+                      invalid={errors.latitude}
+                    />
+                    <FormFeedback>Latitude is required.</FormFeedback>
+                  </Col>
+                </FormGroup>
+                <FormGroup row>
+                  <Label for="longitude" sm={3}>Longitude</Label>
+                  <Col sm={9}>
+                    <InputComponent
+                      type="number"
+                      name="longitude"
+                      id="longitude"
+                      placeholder="Location longitude"
+                      value={values.longitude}
+                      onChange={onChangeHandler}
+                      invalid={errors.longitude}
+                    />
+                    <FormFeedback>Longitude is required.</FormFeedback>
+                  </Col>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="status">Select status</Label>
+                  <Input 
+                    type="select"
+                    name="status"
+                    value={values.status}
+                    onChange={e => {
+                      e.preventDefault();
+                      onChangeHandler('status', e.target.value);
+                    }}
+                  >
+                    <option value="true">Open</option>
+                    <option value="false">Close</option>
+                  </Input>
+                </FormGroup>
+              </Form>
+              <Button color="success" type="submit" onClick={onSubmitHandler}>Save</Button>{' '}
+              <Button color="secondary" onClick={onCancelHandler}>Cancel</Button>
+            </Container>)
       }
     </Popup>
   );

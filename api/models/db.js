@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const { Mongo } = require('../../environment');
 
-const dbURI = 'mongodb://localhost/live-map-project';
+const dbURI = `mongodb://${Mongo.HOST}:${Mongo.PORT}/${Mongo.NAME}`;
 mongoose.connect(dbURI, { useNewUrlParser: true });
 
 mongoose.connection.on('connected', () => {
@@ -21,12 +22,6 @@ const gracefulShutdown = function(msg, callback) {
     callback();
   });
 }
-
-// process.on('SIGUSR2', () => {
-//   gracefulShutdown('nodemon restart', () => {
-//     process.kill(process.pid, 'SIGUSR2');
-//   });
-// });
 
 process.on('SIGINT', () => {
   gracefulShutdown('app termination', () => {

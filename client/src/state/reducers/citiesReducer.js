@@ -2,8 +2,12 @@ import {
   FETCH_CITIES_SUCCESS, 
   FETCH_CITIES_PENDING, 
   FETCH_CITIES_ERROR,
+  CREATE_LOCATION_PENDING,
   CREATE_LOCATION_SUCCESS,
+  CREATE_LOCATION_ERROR,
+  EDIT_LOCATION_PENDING,
   EDIT_LOCATION_SUCCESS,
+  EDIT_LOCATION_ERROR,
   DELETE_LOCATION_SUCCESS
 } from '../types';
 
@@ -17,9 +21,8 @@ export default (state = initialState, action) => {
   switch(action.type) {
     case FETCH_CITIES_PENDING:
       return {
+        ...state,
         pending: true,
-        data: [],
-        error: {}
       };
     case FETCH_CITIES_SUCCESS:
       return {
@@ -29,16 +32,30 @@ export default (state = initialState, action) => {
       };
     case FETCH_CITIES_ERROR:
       return {
-        pending: false,
-        data: [],
+        ...initialState,
         error: action.payload
       };
+    case CREATE_LOCATION_PENDING:
+      return {
+        ...state,
+        pending: true
+      }
     case CREATE_LOCATION_SUCCESS:
       return {
         pending: false,
         data: state.data.concat(action.payload),
-        error: {}
+        error: {},
       };
+    case CREATE_LOCATION_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      };
+    case EDIT_LOCATION_PENDING:
+      return {
+        ...state,
+        pending: true,
+      }
     case EDIT_LOCATION_SUCCESS: {
       const updated = state.data.map(item => 
         item._id === action.payload._id 
@@ -47,8 +64,14 @@ export default (state = initialState, action) => {
       );
       return {
         ...state,
-        data: updated
+        data: updated,
       };
+    }
+    case EDIT_LOCATION_ERROR: {
+      return {
+        ...state,
+        error: action.payload
+      }
     }
     case DELETE_LOCATION_SUCCESS:
       return {

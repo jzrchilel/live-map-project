@@ -11,6 +11,7 @@ import {
   Col,
   Label,
   Input,
+  FormFeedback
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { NavigationControl } from 'react-map-gl';
@@ -39,12 +40,65 @@ class Controls extends Component {
       longitude: '',
       status: true,
     },
+    errors: {
+      name: false,
+      latitude: false,
+      longitude: false,
+      status: false,
+    }
   };
 
   toggle = () => {
+    this.revertErrors();
     this.setState(prevState => ({
       modal: !prevState.modal,
     }));
+  }
+
+  revertErrors = () => {
+    const errors = {
+      name: false,
+      latitude: false,
+      longitude: false,
+      status: false,
+    };
+
+    this.setState({
+      errors
+    })
+  }
+
+  handleValidation = () => {
+    const { errors, form } = this.state;
+    let isFormValid = true;
+
+    if (!form.name) {
+      isFormValid = false;
+      errors.name = true;
+    } else {
+      isFormValid = true;
+      errors.name = false;
+    }
+
+    if (!form.latitude) {
+      isFormValid = false;
+      errors.latitude = true;
+    } else {
+      isFormValid = true;
+      errors.latitude = false;
+    }
+
+    if (!form.longitude) {
+      isFormValid = false;
+      errors.longitude = true;
+    } else {
+      isFormValid = true;
+      errors.longitude = false;
+    }
+
+    this.setState({ errors });
+    
+    return isFormValid;
   }
 
   submitHandler = (e) => {
@@ -52,8 +106,10 @@ class Controls extends Component {
     const { form } = this.state;
     const { createLocation } = this.props;
 
-    createLocation(form);
-    this.toggle();
+    if (this.handleValidation()) {
+      createLocation(form);
+      this.toggle();
+    }
   }
 
   handleInputChange = (e) => {
@@ -97,33 +153,39 @@ class Controls extends Component {
                     placeholder="Location name"
                     value={this.state.form.name}
                     onChange={this.handleInputChange}
+                    invalid={this.state.errors.name}
                   />
+                  <FormFeedback>Location name is required.</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup row>
                 <Label for="latitude" sm={2}>Latitude</Label>
                 <Col sm={10}>
                   <Input
-                    type="text"
+                    type="number"
                     name="latitude"
                     id="latitude"
                     placeholder="Location latitude"
                     value={this.state.form.latitude}
                     onChange={this.handleInputChange}
+                    invalid={this.state.errors.latitude}
                   />
+                  <FormFeedback>Latitude is required.</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup row>
                 <Label for="longitude" sm={2}>Longitude</Label>
                 <Col sm={10}>
                   <Input
-                    type="text"
+                    type="number"
                     name="longitude"
                     id="longitude"
                     placeholder="Location longitude"
                     value={this.state.form.longitude}
                     onChange={this.handleInputChange}
+                    invalid={this.state.errors.longitude}
                   />
+                  <FormFeedback>Longitude is required.</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup>

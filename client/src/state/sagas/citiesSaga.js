@@ -18,7 +18,6 @@ function* workerSaga() {
     const response = yield call(fetchCities);
     yield put({ type: FETCH_CITIES_SUCCESS, payload: response.data });
   } catch(e) {
-    console.log(e);
     yield put({ type: FETCH_CITIES_ERROR, payload: e.response });
   }
 }
