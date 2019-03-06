@@ -1,4 +1,3 @@
-![](https://cdn.docsie.io/boo_PFvw8YhwIwx2RtSiK/6fbfb9d6-2be9-7261-365a-0b20fe81f2a9jezer_banner_(1).jpg)
 # Live Map Project 
 Live map show to the user a map of locations that are fetched from a data store. The map will update if a location is added without refreshing the browser. Each Locations shows its information *(name, latitude, lonngitude, status)*. The user can edit, delete locations.
 
@@ -40,4 +39,4 @@ Live map show to the user a map of locations that are fetched from a data store.
   mongo 127.0.0.1:27017/yourdatabasename insertScript.js
 ```
 
-**LiveMap** was written with ❤️😘 by ![Jezer](https://cdn.docsie.io/boo_PFvw8YhwIwx2RtSiK/14f4a1d0-29c1-5f38-39a9-7fd3a8c337deWebp.net_resizeimage.png) 
+**LiveMap** was written with ❤️😘 by <a href="http://jzrchilel.github.io"><img src="https://avatars2.githubusercontent.com/u/6947082?s=460&v=4" width="50"/></a>
