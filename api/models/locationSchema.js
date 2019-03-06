@@ -1,6 +1,7 @@
+const mongo = require('./db');
 const mongoose = require('mongoose');
 
-const locationSchema = new mongoose.Schema({
+module.exports = mongo.model('Location', new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -18,6 +19,4 @@ const locationSchema = new mongoose.Schema({
     required: true,
     default: false
   }
-});
-
-module.exports = mongoose.model('Location', locationSchema);
+}));

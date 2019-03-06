@@ -1,6 +1,10 @@
-const mongoose = require('mongoose');
 const { validationResult } = require('express-validator/check');
-const Location = mongoose.model('Location');
+const {
+  getLocations,
+  createLocation,
+  updateLocation,
+  deleteLocation
+} = require('./location');
 
 /**
  * Returns an object with error validations 
@@ -10,6 +14,7 @@ const Location = mongoose.model('Location');
  * @param {object} req Express request object
  * @param {object} res Express response object
  * @returns {object} 
+ * @throws Will return an error if one or all arguments are null.
  */
 const sendErrorMessage = (req, res) => {
   const errors = validationResult(req);
@@ -28,10 +33,11 @@ const sendErrorMessage = (req, res) => {
  * @param {object} req Express request object
  * @param {object} res Express response object
  * @returns {object}
+ * @throws Will return an error if there was a problem getting all locations
  */
-const getLocations = async (req, res) => {
+const getLocationsCtrl = async (req, res) => {
   try {
-    const locations = await Location.find({ });
+    const locations = await getLocations();
     res.status(200).json(locations);
   } catch (e) {
     res.status(500).json({ error: e });
@@ -48,13 +54,12 @@ const getLocations = async (req, res) => {
  * @param {object} req Express request object
  * @param {object} res Express response object
  * @returns {object}
+ * @throws Will return an error if there was a problem creating one location
  */
-const createLocation = async (req, res) => {
+const createLocationCtrl = async (req, res) => {
   sendErrorMessage(req, res);
   try {
-    const { name, status, latitude, longitude } = req.body;
-    const location = await Location.create({ name, status, latitude, longitude });
-
+    const location = await createLocation(req.body);
     return res.status(201).json(location);
   } catch (error) {
     return res.status(400).json({ errors: error.errors });
@@ -71,16 +76,12 @@ const createLocation = async (req, res) => {
  * @param {object} req Express request object
  * @param {object} res Express response object
  * @returns {object}
+ * @throws Will return an error if there was a problem updating one location
  */
-const editLocation = async (req, res) => {
+const updateLocationCtrl = async (req, res) => {
   sendErrorMessage(req, res);
   try {
-    const { _id, name, status, latitude, longitude } = req.body;
-    const location = await Location.findByIdAndUpdate(_id,
-      { name, status, latitude, longitude },
-      { new: true }
-    );
-
+    const location = await updateLocation(req.body);
     return res.status(201).json(location);
   } catch (error) {
     return res.status(400).json({ errors: error.errors });
@@ -96,11 +97,12 @@ const editLocation = async (req, res) => {
  * @param {object} req Express request object
  * @param {object} res Express response object
  * @returns {object}
+ * @throws Will return an error if there was a problem deleting one location
  */
-const deleteLocation = async (req, res) => {
+const deleteLocationCtrl = async (req, res) => {
   sendErrorMessage(req, res);
   try {
-    const location = await Location.findOneAndDelete({ _id: req.body._id })
+    const location = await deleteLocation(req.body);
     res.json({ _id: location._id });
   } catch (error) {
     return res.status(400).json({ errors: error.errors });
@@ -108,8 +110,8 @@ const deleteLocation = async (req, res) => {
 };
 
 module.exports = {
-  getLocations,
-  createLocation,
-  editLocation,
-  deleteLocation
+  getLocationsCtrl,
+  createLocationCtrl,
+  updateLocationCtrl,
+  deleteLocationCtrl
 };

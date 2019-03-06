@@ -5,9 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-
-require('./api/models/db');
-const indexRouter = require('./server/routes');
+// const indexRouter = require('./server/routes');
 const routesApi = require('./api/routes');
 
 const app = express();
@@ -24,7 +22,7 @@ app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.use('/', indexRouter);
+// app.use('/', indexRouter); we won't use this routes
 app.use('/api/', routesApi);
 
 // catch 404 and forward to error handler

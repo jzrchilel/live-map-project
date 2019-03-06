@@ -1,6 +1,11 @@
 const router = require('express').Router();
 const { check } = require('express-validator/check');
-const ctrlLocations = require('../controllers');
+const {
+  getLocationsCtrl,
+  createLocationCtrl,
+  updateLocationCtrl,
+  deleteLocationCtrl
+} = require('../controllers');
 
 /**
  * Route serving all locations
@@ -8,7 +13,7 @@ const ctrlLocations = require('../controllers');
  * @name GET/locations
  * @param {function} getLocation controler tha handle the route
  */
-router.get('/locations', ctrlLocations.getLocations);
+router.get('/locations', getLocationsCtrl);
 
 /**
  * Route to create a new location
@@ -22,7 +27,7 @@ router.post('/locations', [
   check('latitude').isNumeric(),
   check('longitude').isNumeric(),
   check('status').isBoolean()
-], ctrlLocations.createLocation);
+], createLocationCtrl);
 
 /**
  * Route to edit one location based in the _id passed
@@ -37,7 +42,7 @@ router.put('/locations', [
   check('latitude').isNumeric(),
   check('longitude').isNumeric(),
   check('status').isBoolean()
-], ctrlLocations.editLocation);
+], updateLocationCtrl);
 
 /**
  * Route to delete one location based in the _id passed
@@ -48,6 +53,6 @@ router.put('/locations', [
  */
 router.delete('/locations', [
   check('_id').not().isEmpty()
-], ctrlLocations.deleteLocation);
+], deleteLocationCtrl);
 
 module.exports = router;

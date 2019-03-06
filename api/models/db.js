@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 const { Mongo } = require('../../environment');
-
 const dbURI = `mongodb://${Mongo.HOST}:${Mongo.PORT}/${Mongo.NAME}`;
-
-mongoose.connect(dbURI, { useNewUrlParser: true });
+const db = mongoose.createConnection(dbURI, { useNewUrlParser: true });
 
 mongoose.connection.on('connected', () => {
   console.log('Mongoose connected to ', dbURI);
@@ -31,4 +29,4 @@ process.on('SIGINT', () => {
   });
 });
 
-require('./locations');
+module.exports = db;
