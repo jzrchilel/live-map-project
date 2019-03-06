@@ -42,6 +42,7 @@ Live map show to the user a map of locations that are fetched from a data store.
 ```
 
 ## Overall live-map-project structure
+```
 .
 ├── api                    # All API logic
 │   ├── controllers 
@@ -74,6 +75,7 @@ Live map show to the user a map of locations that are fetched from a data store.
 ├── package-json
 ├── package-lock.json
 └── README.md
+```
 
 **LiveMap** was written with ❤️ by [Jezer](http://jzrchilel.github.io) 🌶️
 
