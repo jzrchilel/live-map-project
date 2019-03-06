@@ -5,6 +5,8 @@ Live map show to the user a map of locations that are fetched from a data store.
 ### Prerequisites
 * Nodejs (v8.10.0+)
 * MongoDB (v3.6.5+)
+* NPM (v6.8.0)
+* Yarn (v1.9.4)
 
 ### Installing
 * Clone repo:
@@ -15,7 +17,7 @@ Live map show to the user a map of locations that are fetched from a data store.
 ```sh
   cd live-map-project/
 ```
-* Install dependencies running this command. This will install client and backend modules
+* Install dependencies running this command. This command will install client and backend modules
 ```sh
   npm run install:all
 ```
@@ -24,9 +26,9 @@ Live map show to the user a map of locations that are fetched from a data store.
 ```sh
  mongod
 ```
-* **Also you need to put dabase name in `.env` file with your mongoDB credentials(*if you have user and password*)**
+* **Also you need to put database name in `.env` file with your mongoDB credentials(*if you have user and password*)**
 * `MONGO_DB_NAME=yourdatabasename` 
-* *(Usually we should not upload .env files but i did just for this project purpuses)*
+* *(Usually we should not upload .env files but I did it just for purpuses of this project)*
 
 ### Running
 * Now run the project:
@@ -34,9 +36,45 @@ Live map show to the user a map of locations that are fetched from a data store.
   npm run dev
 ```
 * The command shown above will start both client and backend thanks to `concurrently` module.
-* You can execute this command in another terminal window to add some locations but you can create new locations manually.
+* You can execute this command in another terminal window to add some locations, but you can create new locations manually.
 ```sh
   mongo 127.0.0.1:27017/yourdatabasename insertScript.js
 ```
 
-**LiveMap** was written with ❤️😘 by <a href="http://jzrchilel.github.io"><img src="https://avatars2.githubusercontent.com/u/6947082?s=460&v=4" width="50"/></a>
+## Overall live-map-project structure
+.
+├── api                    # All API logic
+│   ├── controllers 
+│   ├── routes
+├── bin
+├── client                 # Where al Frontend lives
+│   ├── public 
+│   ├── src 
+│   │   ├──  components
+│   │   ├──  config
+│   │   ├──  state
+│   │   │   ├──  actions
+│   │   │   ├──  reducers
+│   │   │   ├──  sagas
+│   │   │   ├──  types
+│   ├── .eslintignore
+│   ├── .eslintrc
+│   ├── .env               # File with Mapbox token 
+│   ├── .gitignore
+│   ├── jest.config.js
+│   ├── package.json
+│   ├── yarn.lock
+├── server                 # We can use this folder if do server-side rendering
+│   ├── controllers 
+│   ├── routes
+│   ├── tests              # Server and aPI tests files
+├── app.js
+├── .env                   # File with server keys
+├── .gitignore
+├── package-json
+├── package-lock.json
+└── README.md
+
+**LiveMap** was written with ❤️ by [Jezer](http://jzrchilel.github.io) 🌶️
+
+️😘
