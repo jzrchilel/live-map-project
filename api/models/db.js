@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { Mongo } = require('../../environment');
 
 const dbURI = `mongodb://${Mongo.HOST}:${Mongo.PORT}/${Mongo.NAME}`;
+
 mongoose.connect(dbURI, { useNewUrlParser: true });
 
 mongoose.connection.on('connected', () => {
@@ -10,6 +11,7 @@ mongoose.connection.on('connected', () => {
 
 mongoose.connection.on('error', err => {
   console.log('Mongoose connection error: ', err);
+  process.exit(1);
 });
 
 mongoose.connection.on('disconnected', () => {

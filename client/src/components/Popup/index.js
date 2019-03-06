@@ -13,19 +13,7 @@ import {
   FormFeedback
 } from 'reactstrap';
 import { formActions } from '../../state/actions';
-
-const InputComponent = ({ type, name, onChange, value, ...rest }) => (
-  <Input
-    name={name}
-    type={type}
-    value={value}
-    onChange={e => {
-      e.preventDefault();
-      onChange(name, e.target.value);
-    }}
-    {...rest}
-  />
-);
+import CustomInput from '../CustomInput';
 
 function PopupComponent({ popupInfo, onCloseHandler, editLocation, deleteLocation }) {
   const [editable, setEditable] = useState(false);
@@ -154,7 +142,7 @@ function PopupComponent({ popupInfo, onCloseHandler, editLocation, deleteLocatio
                 <FormGroup row>
                   <Label for="name" sm={3}>Name</Label>
                   <Col sm={9}>
-                    <InputComponent
+                    <CustomInput
                       type="text"
                       name="name"
                       placeholder="Location name"
@@ -168,7 +156,7 @@ function PopupComponent({ popupInfo, onCloseHandler, editLocation, deleteLocatio
                 <FormGroup row>
                   <Label for="latitude" sm={3}>Latitude</Label>
                   <Col sm={9}>
-                    <InputComponent
+                    <CustomInput
                       type="number"
                       name="latitude"
                       id="latitude"
@@ -183,7 +171,7 @@ function PopupComponent({ popupInfo, onCloseHandler, editLocation, deleteLocatio
                 <FormGroup row>
                   <Label for="longitude" sm={3}>Longitude</Label>
                   <Col sm={9}>
-                    <InputComponent
+                    <CustomInput
                       type="number"
                       name="longitude"
                       id="longitude"

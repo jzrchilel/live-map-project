@@ -7,7 +7,7 @@ import Controls from '../Controls';
 import { mount, shallow } from 'enzyme';
 
 describe('Testing Map Component', () => {
-  it('should not render if there is not cities data', () => {
+  it('should not render Markers if there is no data', () => {
     const props = {
       fetchCities: jest.fn(),
       cities: {
@@ -15,7 +15,7 @@ describe('Testing Map Component', () => {
       }
     }
     const wrapper = shallow(<Map {...props } />);
-    expect(wrapper.find(ReactMapGL).length).toBe(0);
+    expect(wrapper.find(Marker).exists()).toBe(false);
   });
 
   it('should render components needed to rente map', () => {

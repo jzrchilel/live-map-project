@@ -7,6 +7,7 @@
     "devstart": "nodemon ./bin/www",
     "test": "mocha server/tests",
     "test:watch": "mocha --watch server/tests",
+    "test:client": "npm run test --prefix client",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run devstart\" \"npm run client\"",
     "install:all": "npm run install:client --prefix client && npm install"
