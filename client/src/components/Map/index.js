@@ -11,10 +11,9 @@ export class Map extends Component {
     viewport: {
       width: "100%",
       height: "100vh",
-      latitude: 20.677031,
-      longitude: -103.346968,
-      zoom: 11,
-      bearing: 0,
+      latitude: 41.385461,
+      longitude: 2.154370,
+      zoom: 13,
       pitch: 50
     },
     popupInfo: null
