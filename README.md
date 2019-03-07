@@ -1,5 +1,5 @@
 # Live Map Project 
-Live map show to the user a map of locations that are fetched from a data store. The map will update if a location is added without refreshing the browser. Each Locations shows its information *(name, latitude, lonngitude, status)*. The user can edit, delete locations.
+Live map show to the user a map of locations that are fetched from a data store. The map will update if a location is added without refreshing the browser. Each Locations shows its information *(name, latitude, longitude, status)*. The user can edit, delete locations.
 
 ## Getting Started 
 ### Prerequisites
@@ -42,6 +42,7 @@ Live map show to the user a map of locations that are fetched from a data store.
 ```
 
 ## Overall live-map-project structure
+If you want to see the approach I took to do this project go <a href="/process/README.md">here</a>.
 ```
 .
 ├── api                    # All API logic
