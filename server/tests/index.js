@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Location = require('../../api/models/locations');
+const Location = require('../../api/models/locationSchema');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../../app');
